@@ -9,9 +9,9 @@ PUT ALL FILES INTO A FOLDER (on your desktop or wherever). Using winrar or a sim
 HOW TO ENTER YOUR INFORMATION:
   in each line of the emails.txt file, write your accounts email, your accounts first name verbatim as   is on bing, and your accounts password, all in the the following format:
   
-    emailman@email.org,FIRSTNAME,PASSWORD
-    foodeater@gmail.net,FIRSTNAME,PASSWORD
-    thirdemail@site.io,FIRSTNAME,PASSWORD
+    emailman@email.org!FIRSTNAME!PASSWORD
+    foodeater@gmail.net!FIRSTNAME!PASSWORD
+    thirdemail@site.io!FIRSTNAME!PASSWORD
     
   Of course, if you only have one account, just use one line.
 
