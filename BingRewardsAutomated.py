@@ -8,7 +8,7 @@ from difflib import SequenceMatcher
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
-def superSonic(driver):#yep. does supersonic quizes
+def superSonic(driver):#yep. does supersonic quizzes
     while True: #click start button
         try:
             driver.find_element_by_id("rqStartQuiz").click()
@@ -33,7 +33,7 @@ def superSonic(driver):#yep. does supersonic quizes
                 time.sleep(.1)
 
 
-def lightspeed(driver,loops):#does lightspeedquizes and TandF questions. lightspd is 4 questions, TandF is one question
+def lightspeed(driver,loops):#does lightspeedquizzes and TandF questions. lightspd is 4 questions, TandF is one question
     #hence loops will = 4 or 1 accordingly.
     while True: #click start quiz
         try:
@@ -171,7 +171,7 @@ def thisOrThat(driver):#lovely function. Can't tell answer by looking at xpath. 
 
 
 
-def quizTaker(driver): #takes homepage and news quizes!
+def quizTaker(driver): #takes homepage and news quizzes!
     quizOver = False #tells us when da quiz is over
     while True: #loop  until no more questions (quizOver= True)
         driver.execute_script("window.scrollTo(0,(document.body.scrollHeight/5))")  # scroll down incase options are blocked by other quiz menus
@@ -201,7 +201,7 @@ def quizTaker(driver): #takes homepage and news quizes!
 
 
 
-def pollTaker(driver): #does the poll quizes. #just clicks the first option.
+def pollTaker(driver): #does the poll quizzes. #just clicks the first option.
     while True:
         try:
             driver.find_element_by_class_name("bt_optionTxt").click()
@@ -211,7 +211,7 @@ def pollTaker(driver): #does the poll quizes. #just clicks the first option.
 
 
 
-def determineQuiz(driver):#used by doQuizes(). determines which kind of quiz we have, and calls the right solve-function
+def determineQuiz(driver):#used by doQuizzes(). determines which kind of quiz we have, and calls the right solve-function
     #IMPORTANT I am detecting whether certain strings are in the url. The URL will change in the future most likely.
     #this means that this function will need to be updated in order to properly determine the quiz type.
     #This also means that if bing creates a new quiz type, it must be added to here, and a function must be created
@@ -246,17 +246,17 @@ def determineQuiz(driver):#used by doQuizes(). determines which kind of quiz we 
         time.sleep(1) #wait 3 seconds to properly register to bing that it loaded.
 
 
-def getQuizes(driver): #used by doQuizes() funciton. goes to the quiz menu and gets list of elements of all quizes to do
+def getquizzes(driver): #used by doQuizzes() funciton. goes to the quiz menu and gets list of elements of all quizzes to do
     driver.get("https://account.microsoft.com/rewards/") #quiz menu
-    Quizes = "" #initiailze
-    while True:#find the list of elements of quizes to do. fun xpath lol.
+    quizzes = "" #initiailze
+    while True:#find the list of elements of quizzes to do. fun xpath lol.
         try:
-            Quizes = driver.find_elements_by_xpath(
+            quizzes = driver.find_elements_by_xpath(
                 '//*[contains(@class,"mee-icon mee-icon-AddMedium")]/../../../..//*[contains(@ng-class,"Mobile")]//*[(contains(@aria-label,"points") and not(contains(@aria-label,"Start"))) or contains(@aria-label,"Learn ")]')
             break
         except: #hasnt loaded. wait.
             time.sleep(.1)
-    return Quizes #return the list.
+    return quizzes #return the list.
 
 
 def login(driver,email,errorsEncountered,password,url): #logs into bing account :) takes account emial and curren error total.
@@ -390,16 +390,16 @@ def loginRewards(driver,email,errorsEncountered,password):
     errorsEncountered = login(driver,email,errorsEncountered,password,"https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1613241065&rver=7.0.6738.0&wp=MBI_SSL&wreply=https:%2F%2Faccount.microsoft.com%2Fauth%2Fcomplete-signin%3Fru%3Dhttps%253A%252F%252Faccount.microsoft.com%252Frewards%253Fru%253Dhttps%25253A%25252F%25252Faccount.microsoft.com%25252Frewards%25252Fdashboard&lc=1033&id=292666&lw=1&fl=easi2")
     return errorsEncountered
 
-def doQuizes(driver): #first process of doing the quizes. makes sure we go through each quiz
-    Quizes = getQuizes(driver) #get the quizes we have to do. this takes us to the Quiz Menu also
-    ogQuizLength = len(Quizes)
+def doQuizzes(driver): #first process of doing the quizzes. makes sure we go through each quiz
+    quizzes = getquizzes(driver) #get the quizzes we have to do. this takes us to the Quiz Menu also
+    ogQuizLength = len(quizzes)
     quizSkipper = 0 #if theres a new quiz type or something, and the quiz wasn't actually performed, skip it.
-    print(str(ogQuizLength)+" Quizes to do...")
+    print(str(ogQuizLength)+" quizzes to do...")
     for i in range(ogQuizLength): #go through and do each quiz
         # clicking a quiz opens a new tab, we only want one tab at a time. so get hte id of the current tab
-        #which is the menu of all the quizes using the code below
+        #which is the menu of all the quizzes using the code below
         window = driver.current_window_handle
-        Quiz = Quizes[quizSkipper]  #select the quiz to do
+        Quiz = quizzes[quizSkipper]  #select the quiz to do
         try:
             Quiz.click() #click the quiz link
         except: #except a pop up occured. close out of it.
@@ -410,7 +410,7 @@ def doQuizes(driver): #first process of doing the quizes. makes sure we go throu
                 except:
                     time.sleep(.1)
             Quiz.click()
-            #this opens a new tab. Switch to the other tab (the menu of all the quizes) and close it
+            #this opens a new tab. Switch to the other tab (the menu of all the quizzes) and close it
         driver.switch_to.window(window)
         while True:
             if len(driver.window_handles) == 2:
@@ -421,13 +421,13 @@ def doQuizes(driver): #first process of doing the quizes. makes sure we go throu
         driver.switch_to.window(window)
         determineQuiz(driver) #determine and do the quiz...
         driver.get("https://account.microsoft.com/rewards/")
-        Quizes = getQuizes(driver)# go back to quizes menu and get all the quizes for the next loop
+        quizzes = getquizzes(driver)# go back to quizzes menu and get all the quizzes for the next loop
         while True:
             if "https://account.microsoft.com/rewards" in driver.current_url:
                 break
             else:
                 time.sleep(.1)
-        if len(Quizes) == ogQuizLength:  # new kind of quiz was clicked that I have not programmed to complete yet, skip
+        if len(quizzes) == ogQuizLength:  # new kind of quiz was clicked that I have not programmed to complete yet, skip
             quizSkipper += 1
 
 
@@ -487,12 +487,12 @@ def main():
     accountTotals={}#dictionary of accounts and how many points is on each one. used at end.
     while True:
         try:
-            quizesOrNot=input("Do you want me to attempt to do the Bing Quizes as well?\nType 'y' or 'n'\n>> ")
-            if quizesOrNot =='y':
-                print("sick, lets do those quizies!")
+            quizzesOrNot=input("Do you want me to attempt to do the Bing quizzes as well?\nType 'y' or 'n'\n>> ")
+            if quizzesOrNot =='y':
+                print("sick, lets do those quizzes!")
                 break
-            elif quizesOrNot=='n':
-                print("Coward. ok, I won't do the quizes")
+            elif quizzesOrNot=='n':
+                print("Coward. ok, I won't do the quizzes")
                 break
             else:
                 print("you had two options, y and n. you failed. try again.")
@@ -503,7 +503,7 @@ def main():
         if email!='\n' and email!='':
             if email[-1] == '\n':#gets rid of \n at the end of an email
                 email = email[0:len(email) - 1]
-            email=email.split("!")
+            email=email.split(",")
             password=email[2]
             firstName=email[1]
             email=email[0]
@@ -519,9 +519,9 @@ def main():
             print("Times to search: " + str(timesToSearch)) #how many times the program will search on bing
             print("Searching...")
             search(driver,words,timesToSearch,firstName) # it do be searching tho
-            if quizesOrNot=='y':
-                print("Starting quizes...")
-                doQuizes(driver) #do dem quizes
+            if quizzesOrNot=='y':
+                print("Starting quizzes...")
+                doQuizzes(driver) #do dem quizzes
             endingPoints = getPointTotal(driver) #get the total points on the account now that the program ran
             print("Points at end: " + str(endingPoints) + '\n')
             logout(driver) #log tf out so we can sign into next account
@@ -534,7 +534,7 @@ def main():
     for w in sorted_keys: #prints out accounts from least to most points
         print(w+": "+str(accountTotals[w])+" points")
     print("\n\nTotal Time to run "+str(totalEmails)+" accounts: "+str(math.ceil(programEndTime-programStartTime))+" s (around "+str(round((programEndTime-programStartTime)/totalEmails,1))+" s / per account)")
-    print("Total points in your pocession, sire: "+str(totalPointsEarnedTotal))
+    print("Total points in your possession, sire: "+str(totalPointsEarnedTotal))
     print("Total points earned from this run: "+str(totalPointsEarnedInRun))
     print("Number of errors bing sent: "+str(errorsEncountered))
     driver.quit() #dab
